@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ item.title }}
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <h1 class="text-primary">{{ item.title }}</h1>
+    <div class="alert alert-info">
+        <h3>{{ item.text }}</h3>
+        {% for file in files %}
+            {% if file.format == "jpg" or file.format == "png" or file.format == "jpeg" or
+        file.format == "PNG" or file.format == "JPG" or file.format == "JPEG"%}
+                <img src="{{ file.path_to_explorer }}" width="100%" height="auto"><br>
+            {% endif %}
+        {% endfor %}
+        <br>
+        {% for file in files %}
+            <a href="{{ file.path_to_explorer }}" download>
+                <button type="button" class="btn btn-primary">Скачать {{ file.filename }}</button>
+            </a>
+        {% endfor %}
+    </div>
+    <p>{{ item.date.date() }}</p>
+    <p>Автор: {{ item.users.fullname }} из {{ item.users.school_class }} класса</p>
+</div>
+
+{% if edit == true %}
+    <form method="post">
+        <a href="/posts_record/{{ item.id }}" class="btn btn-success">Изменить</a>
+    </form>
+{% endif %}
+<br>
+{% if delete == true %}
+    <form method="post">
+        <input type="submit" class="btn btn-success" name="delete_btn" value="Удалить">
+    </form>
+{% endif %}
+{% endblock %}

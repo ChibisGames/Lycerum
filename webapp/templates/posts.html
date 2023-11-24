@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Посты
+{% endblock %}
+
+
+{% block body %}
+    <form method="post">
+        <select name="subject">
+            <option value="all">Все записи</option>
+            <option value="math">Математика</option>
+            <option value="phys">Физика</option>
+            <option value="inf">Информатика</option>
+            <option value="other">Не профильный</option>
+        </select>
+        <input type="submit" class="btn btn-success" name="select_btn" value="Отсортировать">
+    </form>
+    {% for el in items %}
+        <div class="alert alert-info">
+            <h3>{{ el.title }}</h3>
+            <p>{{ el.date.date() }}</p>
+            <p>Автор: {{ el.users.fullname }} из {{ el.users.school_class }} класса</p>
+            <a href="/posts/{{ el.id }}" class="btn btn-warning">Посмотреть статью</a>
+        </div>
+    {% endfor %}
+{% endblock %}

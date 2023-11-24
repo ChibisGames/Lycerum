@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Создание статьи
+{% endblock %}
+
+
+{% block body %}
+<form method="post" enctype="multipart/form-data">
+	{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <input type="text" name="title" class="form-control" placeholder="Введите заголоаок" maxlength="50">
+    <select name="subject">
+      <option value="math">Математика</option>
+      <option value="phys">Физика</option>
+      <option value="inf">Информатика</option>
+      <option value="other">Не профильный</option>
+    </select>
+
+    <textarea name="text" class="form-control" placeholder="Введите отзыв"></textarea><br>
+    <input type="file" name="files" id="files" value="Добавить файлы" multiple>
+    <h5>Файлы добавлены:</h5>
+    <textarea inert rows="1" cols="15" id="add_files" name="add_files" class="bg-success text-white">Будут</textarea>
+    <br>
+    <input type="submit" class="btn btn-success" name="create_btn" value="Отправить">
+</form>
+
+<script>
+    document.addEventListener('change', check_files, false);
+    function check_files(){
+        var arrFiles = document.getElementById("files").files;
+        let p = 0
+        for (let i = 0; i < arrFiles.length; i++) {
+            p += arrFiles[i].size;
+        }
+        if ({{ maximum }} - p < 0 || {{ maximum_quantity }} - arrFiles.length < 0) {
+            document.getElementById("add_files").innerHTML = "Не будут (превышен лимит веса на запись или кол-во файлов)";
+            document.getElementById("add_files").className  = "bg-danger text-white";
+        }
+        else {
+            document.getElementById("add_files").innerHTML = "Будут";
+            document.getElementById("add_files").className  = "bg-success text-white";
+        }
+    }
+</script>
+{% endblock %}

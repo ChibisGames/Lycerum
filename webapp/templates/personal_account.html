@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Личный кабинет
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <h1> Личный кабинет </h1>
+    <h3>ФИО: {{ item.fullname }}</h3>
+    <h4>Класс: {{ item.school_class }}</h4>
+    <h4>Дата рождения: {{ item.birth_date }}</h4>
+    <h4>Количесиво постов:  {% if item.sum_of_record %}
+                                {{ item.sum_of_record }}
+                            {% else %}
+                                0
+                            {% endif %}
+    </h4>
+    {% if item.admin > 1 %}
+        <a href="/admin_console" class="btn btn-primary">Admin console</a>
+    {% endif %}
+    <a href="/logout" class="btn btn-warning">Выйти из сессии</a>
+</div>
+
+{% endblock %}

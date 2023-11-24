@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Внесение изменений
+{% endblock %}
+
+
+{% block body %}
+<form method="post" enctype="multipart/form-data">
+    <textarea name="title" class="form-control" placeholder="Введите заголоаок" maxlength="50">{{ item.title }}</textarea>
+    <select name="subject">
+      <option value="math">Математика</option>
+      <option value="phys">Физика</option>
+      <option value="inf">Информатика</option>
+      <option value="other">Не профильный</option>
+    </select>
+
+    <textarea name="text" class="form-control" placeholder="Введите отзыв">{{ item.text }}</textarea><br>
+    <br>
+    {% for file in files %}
+        <button value="{{ file.filename }}" type="button" class="btn btn-primary" name="{{ file.filename }}"
+                id="{{ file.filename }}">Удалить {{ file.filename }}</button>
+    {% endfor %}
+    <br>
+    <h5>Будут удалены:</h5>
+    <textarea id="output" name="output" inert rows="3" cols="50"></textarea>
+    <br>
+    <input type="file" id="files" name="files" value="Добавить файлы" multiple>
+    <h5>Файлы добавлены:</h5>
+    <textarea inert rows="1" cols="70" id="add_files" name="add_files" class="bg-success text-white">Будут</textarea>
+    <br>
+    <input type="submit" class="btn btn-success" name="create_btn" value="Изменить">
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', buttons, false);
+    document.addEventListener('change', check_files, false);
+        function buttons(){
+            {% for file in files %}
+                document.getElementById("{{ file.filename }}").addEventListener("click",
+                    function(){changeColorButton("{{ file.filename }}");}
+                );
+            {% endfor %}
+
+            function changeColorButton(el) {
+              el_id = document.getElementById(el)
+              if(el_id.className  == "btn btn-primary")
+              {
+                el_id.className  = "btn btn-danger";
+                document.getElementById("output").innerHTML += el + ' ';
+              }
+              else
+              {
+                el_id.className  = "btn btn-primary";
+                document.getElementById("output").innerHTML = document.getElementById("output").innerHTML.replace(el + ' ', '');
+              }
+            }
+    };
+    function check_files(){
+        var arrFiles = document.getElementById("files").files;
+        let p = 0
+        for (let i = 0; i < arrFiles.length; i++) {
+            p += arrFiles[i].size;
+        }
+        if ({{ maximum }} - {{ total_p }} - p < 0 || {{ maximum_quantity }} - {{ total_files }} - arrFiles.length < 0) {
+            document.getElementById("add_files").innerHTML = "Не будут (превышен лимит веса на запись или кол-во файлов)";
+            document.getElementById("add_files").className  = "bg-danger text-white";
+        }
+        else {
+            document.getElementById("add_files").innerHTML = "Будут";
+            document.getElementById("add_files").className  = "bg-success text-white";
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Admin console
+{% endblock %}
+
+{% block body %}
+    <form method="POST" style="background: skyblue; border-radius: 20px" class="container">
+        <ul>
+            <li>
+                <p>Логин:
+                    <input type="text" name="user_login" id="user_login" class="form-control">
+                </p>
+            </li>
+            <li>
+                <p>Пароль:
+                    <input type="text" name="password" id="password" class="form-control">
+                </p>
+            </li>
+            <li>
+                <p>Уровень администратора:
+                    <input type="text" name="admin" id="admin" class="form-control">
+                </p>
+            </li>
+            <li>
+                <p>ФИО:
+                    <input type="text" name="fullname" id="fullname" class="form-control">
+                </p>
+            </li>
+            <li>
+                <p>Класс:
+                    <input type="text" name="school_class" id="school_class" class="form-control">
+                </p>
+            </li>
+            <li>
+                <p>Дата рождения:
+                    <input type="text" name="birth_date" id="birth_date" class="form-control">
+                </p>
+            </li>
+        </ul>
+        <br>
+        <br>
+        <input type="submit" class="btn btn-success" value="Утвердить">
+    </form>
+    <style>
+        p {
+            font-size: 28px;
+        }
+    </style>
+{% endblock %}
